@@ -1,0 +1,155 @@
+% APA 7 variant of informes template — Times New Roman, monochrome
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+
+\usepackage{geometry}
+\geometry{margin=1in, top=1in, bottom=1in}
+
+\usepackage[explicit]{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{fancyhdr}
+
+% All black — no accent colors
+\definecolor{accent}{HTML}{000000}
+\definecolor{lightgray}{HTML}{EEEEEE}
+\definecolor{linkcolor}{HTML}{000000}
+\definecolor{rulegray}{HTML}{000000}
+
+% Hyperref — black links, no color
+\usepackage[colorlinks=false, hidelinks, pdfborder={0 0 0}]{hyperref}
+
+% Header/Footer
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[R]{\small\thepage}
+\fancyfoot[C]{\small\href{https://github.com/Faridsz0605/work/tree/main/assesbga/}{github.com/Faridsz0605/work/tree/main/assesbga/}}
+
+% Paragraph — APA double spacing, indent
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\linespread{1.5}\selectfont
+
+% Section: bold, centered, title case — APA Level 1
+\titleformat{\section}
+  {\normalsize\bfseries\centering}%
+  {}%
+  {0pt}%
+  {#1}%
+\titlespacing*{\section}{0pt}{18pt}{6pt}
+
+% Subsection: bold, flush left — APA Level 2
+\titleformat{\subsection}
+  {\normalsize\bfseries}%
+  {}%
+  {0pt}%
+  {#1}%
+\titlespacing*{\subsection}{0pt}{12pt}{4pt}
+
+% Subsubsection: bold italic, flush left — APA Level 3
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\itshape}%
+  {}%
+  {0pt}%
+  {#1}%
+\titlespacing*{\subsubsection}{0pt}{8pt}{2pt}
+
+% Lists
+\setlist[itemize]{
+  leftmargin=1.8em,
+  itemsep=2pt,
+  parsep=0pt,
+  topsep=4pt,
+  partopsep=0pt
+}
+
+\setlist[enumerate]{
+  leftmargin=1.8em,
+  itemsep=2pt,
+  parsep=0pt,
+  topsep=4pt,
+  partopsep=0pt
+}
+
+% Pandoc tightlist
+\providecommand{\tightlist}{\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}}
+
+% Abstract box (plain, no color)
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\newtcolorbox{kpibox}{
+  colback=lightgray,
+  colframe=black,
+  boxrule=0.4pt,
+  arc=0pt,
+  left=10pt,
+  right=10pt,
+  top=6pt,
+  bottom=6pt,
+  fontupper=\small
+}
+
+% Two-column entry
+\newcommand{\infoentry}[2]{%
+  \noindent\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}%
+    #1 & #2 \\%
+  \end{tabular*}\par\vspace{2pt}%
+}
+
+% Pandoc image scaling
+\makeatletter
+\newsavebox\pandoc@telecombox
+\newcommand{\pandocbounded}[1]{%
+  \sbox\pandoc@telecombox{#1}%
+  \ifdim\wd\pandoc@telecombox>\linewidth
+    \resizebox{\linewidth}{!}{#1}%
+  \else
+    #1%
+  \fi
+}
+\makeatother
+
+$if(tables)$
+\usepackage{array}
+$endif$
+
+\begin{document}
+
+% ---- COVER / TITLE BLOCK — APA 7 style ----
+\thispagestyle{empty}
+\begin{center}
+  \vspace*{2cm}
+  {\large\bfseries $if(title)$$title$$else$Informe$endif$}\\[8pt]
+  $if(subtitle)${\normalsize $subtitle$}\\[8pt]$endif$
+  \vspace{1cm}
+  {\normalsize $if(author)$$author$$endif$$if(organization)$\\[4pt]$organization$$endif$}\\[4pt]
+  {\normalsize $if(date)$$date$$endif$$if(version)$\\[2pt]v$version$$endif$}
+  \vspace{1cm}
+\end{center}
+
+$if(abstract)$
+\begin{kpibox}
+\textbf{Resumen Ejecutivo}\\[4pt]
+$abstract$
+\end{kpibox}
+\vspace{6pt}
+$endif$
+
+$if(toc)$
+\tableofcontents
+\newpage
+$endif$
+
+% ---- BODY ----
+$body$
+
+\end{document}
